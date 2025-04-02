@@ -20,8 +20,8 @@ lint:
 template:
   org: nf-core
   name: bigstitcher
-  description: 'BigStitcher: simple and efficient alignment of multi-tile and multi-angle
-    image datasets'
+  description: "BigStitcher: simple and efficient alignment of multi-tile and multi-angle
+    image datasets"
   author: Stephan Preibisch, Cristian Goina, Konrad Rokicki
   version: 1.0.0dev
   force: true
