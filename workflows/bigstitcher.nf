@@ -14,10 +14,10 @@ include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pi
 workflow BIGSTITCHER {
 
     take:
-    ch_data // channel: samplesheet read in from --input
+    ch_data // channel: input data read in from --input
     main:
 
-    ch_data.subscribe { log.info "!!!!!!!!! SAMPLE SHEET $it" }
+    ch_data.subscribe { log.info "Input data $it" }
 
     ch_versions = Channel.empty()
 
