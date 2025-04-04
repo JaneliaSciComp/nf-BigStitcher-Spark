@@ -54,19 +54,16 @@ workflow {
     // SUBWORKFLOW: Run initialisation tasks
     //
     PIPELINE_INITIALISATION (
-        params.version,
-        params.validate_params,
-        params.monochrome_logs,
-        args,
+        params.input,
         params.outdir,
-        params.input
+        args,
     )
 
     //
     // WORKFLOW: Run main workflow
     //
     NFCORE_BIGSTITCHER (
-        PIPELINE_INITIALISATION.out.samplesheet
+        PIPELINE_INITIALISATION.out.data
     )
     //
     // SUBWORKFLOW: Run completion tasks

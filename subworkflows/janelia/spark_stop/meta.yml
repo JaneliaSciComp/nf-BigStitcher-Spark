@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: spark_stop
+description: |
+  Stops Spark processing by writing a marker file which terminates the 
+  cluster processes.
+keywords:
+  - spark
+  - bigdata
+  - infrastructure
+components:
+  - spark/terminate
+input:
+  - ch_meta:
+      type: tuple
+      description: |
+        Channel of tuples where the first item is the meta map, and the second is a 
+        a spark context map.
+        Structure: [ val(meta), val(spark) ]
+
+output:
+  - done:
+      type: tuple
+      description: |
+        Same as the input tuple.
+
+authors:
+  - "@krokicki"
+  - "@cgoina"

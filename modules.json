@@ -2,6 +2,22 @@
     "name": "nf-core/bigstitcher",
     "homePage": "https://github.com/nf-core/bigstitcher",
     "repos": {
+        "git@github.com:JaneliaSciComp/nextflow-modules.git": {
+            "subworkflows": {
+                "janelia": {
+                    "spark_start": {
+                        "branch": "main",
+                        "git_sha": "ce27f00338affaed60cbb37b4dc060f145297c23",
+                        "installed_by": ["subworkflows"]
+                    },
+                    "spark_stop": {
+                        "branch": "main",
+                        "git_sha": "b760f47a778c7bd9d66ea7ca1fd319e2eeb29bf0",
+                        "installed_by": ["subworkflows"]
+                    }
+                }
+            }
+        },
         "https://github.com/nf-core/modules.git": {
             "modules": {
                 "nf-core": {}

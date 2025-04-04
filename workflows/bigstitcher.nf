@@ -3,9 +3,7 @@
     IMPORT MODULES / SUBWORKFLOWS / FUNCTIONS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-include { paramsSummaryMap       } from 'plugin/nf-schema'
 include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_bigstitcher_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -16,8 +14,10 @@ include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_bigs
 workflow BIGSTITCHER {
 
     take:
-    ch_samplesheet // channel: samplesheet read in from --input
+    ch_data // channel: samplesheet read in from --input
     main:
+
+    ch_data.subscribe { log.info "!!!!!!!!! SAMPLE SHEET $it" }
 
     ch_versions = Channel.empty()
 
@@ -34,12 +34,5 @@ workflow BIGSTITCHER {
 
 
     emit:
-    versions       = ch_versions                 // channel: [ path(versions.yml) ]
-
+    versions = ch_collated_versions  // channel: [ path(versions.yml) ]
 }
-
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    THE END
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
