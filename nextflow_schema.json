@@ -1,7 +1,7 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://raw.githubusercontent.com/nf-core/bigstitcher/main/nextflow_schema.json",
-    "title": "nf-core/bigstitcher pipeline parameters",
+    "$id": "https://raw.githubusercontent.com/JaneliaSciComp/nf-bigstitcher/main/nextflow_schema.json",
+    "title": "JaneliaSciComp/nf-bigstitcher pipeline parameters",
     "description": "BigStitcher: simple and efficient alignment of multi-tile and multi-angle image datasets",
     "type": "object",
     "$defs": {
@@ -10,23 +10,35 @@
             "type": "object",
             "fa_icon": "fas fa-terminal",
             "description": "Define where the pipeline should find input data and save output data.",
-            "required": ["input", "outdir"],
+            "required": ["outdir", "module"],
             "properties": {
-                "input": {
+                "module": {
+                    "type": "string",
+                    "fa_icon": "fas fa-puzzle-piece",
+                    "description": "Name of the BigStitcher-Spark module to run (currently supported: resave, stitching, affine-fusion)",
+                    "enum": ["resave", "stitching", "affine-fusion"],
+                    "help_text": "You can find more information about the modules at https://github.com/JaneliaSciComp/BigStitcher-Spark"
+                },
+                "module_params": {
+                    "type": "string",
+                    "fa_icon": "fas fa-terminal",
+                    "description": "Parameters for the BigStitcher-Spark module",
+                    "help_text": "Any extra parameters for the BigStitcher-Spark module, except -x and -o, which are provided through --xml and --outdir."
+                },
+                "xml": {
                     "type": "string",
                     "format": "file-path",
                     "exists": true,
-                    "schema": "assets/schema_input.json",
-                    "mimetype": "text/csv",
-                    "pattern": "^\\S+\\.csv$",
-                    "description": "Path to comma-separated file containing information about the samples in the experiment.",
-                    "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row. See [usage docs](https://nf-co.re/bigstitcher/usage#samplesheet-input).",
-                    "fa_icon": "fas fa-file-csv"
+                    "mimetype": "text/xml",
+                    "pattern": "^\\S+\\.xml$",
+                    "description": "Path to the existing BigStitcher project xml",
+                    "help_text": "You will need to create a design file with information about the stitching.",
+                    "fa_icon": "fas fa-file-code"
                 },
                 "outdir": {
                     "type": "string",
                     "format": "directory-path",
-                    "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
+                    "description": "The output N5/ZARR/HDF5 where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
                     "fa_icon": "fas fa-folder-open"
                 },
                 "email": {

@@ -1,4 +1,4 @@
-# nf-core/bigstitcher: Output
+# JaneliaSciComp/nf-bigstitcher: Output
 
 ## Introduction
 

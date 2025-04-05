@@ -1,9 +1,9 @@
 #!/usr/bin/env nextflow
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    nf-core/bigstitcher
+    JaneliaSciComp/nf-bigstitcher
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Github : https://github.com/nf-core/bigstitcher
+    Github : https://github.com/JaneliaSciComp/nf-bigstitcher
     Website: https://nf-co.re/bigstitcher
     Slack  : https://nfcore.slack.com/channels/bigstitcher
 ----------------------------------------------------------------------------------------
@@ -15,32 +15,10 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { BIGSTITCHER  } from './workflows/bigstitcher'
+include { BIGSTITCHER             } from './workflows/bigstitcher'
 include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_bigstitcher_pipeline'
 include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_bigstitcher_pipeline'
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    NAMED WORKFLOWS FOR PIPELINE
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
 
-//
-// WORKFLOW: Run main analysis pipeline depending on type of input
-//
-workflow NFCORE_BIGSTITCHER {
-
-    take:
-    samplesheet // channel: samplesheet read in from --input
-
-    main:
-
-    //
-    // WORKFLOW: Run pipeline
-    //
-    BIGSTITCHER (
-        samplesheet
-    )
-}
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -59,15 +37,13 @@ workflow {
         params.monochrome_logs,
         args,
         params.outdir,
-        params.input
     )
 
     //
     // WORKFLOW: Run main workflow
     //
-    NFCORE_BIGSTITCHER (
-        PIPELINE_INITIALISATION.out.samplesheet
-    )
+    BIGSTITCHER ()
+
     //
     // SUBWORKFLOW: Run completion tasks
     //
