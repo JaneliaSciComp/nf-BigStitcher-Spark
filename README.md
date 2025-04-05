@@ -9,11 +9,9 @@
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
 
-
 ## Introduction
 
-**JaneliaSciComp/nf-bigstitcher** is a Nextflow pipeline that allows you to run individual [BigStitcher-Spark](https://github.com/JaneliaSciComp/BigStitcher-Spark) modules. This means you can run the compute-intensive parts of [BigStitcher](https://imagej.net/plugins/bigstitcher/) on any compute infrastructure supported by Nextflow ([SGE, SLURM, AWS, etc.](https://www.nextflow.io/docs/latest/executor.html)). The pipeline starts up an Apache Spark cluster, runs the selected BigStitcher step, and then shuts down Spark. 
-
+**JaneliaSciComp/nf-bigstitcher** is a Nextflow pipeline that allows you to run individual [BigStitcher-Spark](https://github.com/JaneliaSciComp/BigStitcher-Spark) modules. This means you can run the compute-intensive parts of [BigStitcher](https://imagej.net/plugins/bigstitcher/) on any compute infrastructure supported by Nextflow ([SGE, SLURM, AWS, etc.](https://www.nextflow.io/docs/latest/executor.html)). The pipeline starts up an Apache Spark cluster, runs the selected BigStitcher step, and then shuts down Spark.
 
 ## Usage
 
@@ -45,7 +43,7 @@ For more details about the output files and reports, please refer to the
 
 ## Credits
 
-JaneliaSciComp/nf-bigstitcher was developed by Cristian Goina, Konrad Rokicki, and Stephan Preibisch (the author of BigStitcher). 
+JaneliaSciComp/nf-bigstitcher was developed by Cristian Goina, Konrad Rokicki, and Stephan Preibisch (the author of BigStitcher).
 
 ## Contributions and Support
 
