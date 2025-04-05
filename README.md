@@ -1,9 +1,4 @@
-<h1>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/nf-core-bigstitcher_logo_dark.png">
-    <img alt="JaneliaSciComp/nf-bigstitcher" src="docs/images/nf-core-bigstitcher_logo_light.png">
-  </picture>
-</h1>
+# nf-bigstitcher
 
 [![GitHub Actions CI Status](https://github.com/JaneliaSciComp/nf-bigstitcher/actions/workflows/ci.yml/badge.svg)](https://github.com/JaneliaSciComp/nf-bigstitcher/actions/workflows/ci.yml)
 [![GitHub Actions Linting Status](https://github.com/JaneliaSciComp/nf-bigstitcher/actions/workflows/linting.yml/badge.svg)](https://github.com/JaneliaSciComp/nf-bigstitcher/actions/workflows/linting.yml)[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/bigstitcher/results)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
