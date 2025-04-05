@@ -2,9 +2,7 @@
     "name": "JaneliaSciComp/nf-bigstitcher",
     "homePage": "https://github.com/JaneliaSciComp/nf-bigstitcher",
     "repos": {
-        "https://github.com/JaneliaSciComp/nextflow-modules.git": {
-            "modules": {
-            },
+        "JaneliaSciComp/nextflow-modules": {
             "subworkflows": {
                 "janelia": {
                     "spark_start": {
@@ -21,8 +19,6 @@
             }
         },
         "https://github.com/nf-core/modules.git": {
-            "modules": {
-            },
             "subworkflows": {
                 "nf-core": {
                     "utils_nextflow_pipeline": {
