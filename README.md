@@ -1,9 +1,8 @@
 # nf-bigstitcher
 
 [![GitHub Actions CI Status](https://github.com/JaneliaSciComp/nf-bigstitcher/actions/workflows/ci.yml/badge.svg)](https://github.com/JaneliaSciComp/nf-bigstitcher/actions/workflows/ci.yml)
-[![GitHub Actions Linting Status](https://github.com/JaneliaSciComp/nf-bigstitcher/actions/workflows/linting.yml/badge.svg)](https://github.com/JaneliaSciComp/nf-bigstitcher/actions/workflows/linting.yml)[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/bigstitcher/results)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
-[![nf-test](https://img.shields.io/badge/unit_tests-nf--test-337ab7.svg)](https://www.nf-test.com)
-
+[![GitHub Actions Linting Status](https://github.com/JaneliaSciComp/nf-bigstitcher/actions/workflows/linting.yml/badge.svg)](https://github.com/JaneliaSciComp/nf-bigstitcher/actions/workflows/linting.yml)
+[![Cite with Zenodo](https://img.shields.io/badge/DOI-10.1038/s41592--019--0501--0-blue)](https://doi.org/10.1038/s41592-019-0501-0)
 [![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A524.10.5-23aa62.svg)](https://www.nextflow.io/)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
