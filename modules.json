@@ -1,6 +1,6 @@
 {
-    "name": "nf-core/bigstitcher",
-    "homePage": "https://github.com/nf-core/bigstitcher",
+    "name": "JaneliaSciComp/nf-bigstitcher",
+    "homePage": "https://github.com/JaneliaSciComp/nf-bigstitcher",
     "repos": {
         "https://github.com/JaneliaSciComp/nextflow-modules.git": {
             "modules": {
