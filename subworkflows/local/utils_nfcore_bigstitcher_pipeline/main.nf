@@ -8,11 +8,13 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
+include { UTILS_NFSCHEMA_PLUGIN     } from '../../nf-core/utils_nfschema_plugin'
 include { paramsSummaryMap          } from 'plugin/nf-schema'
 include { completionEmail           } from '../../nf-core/utils_nfcore_pipeline'
 include { completionSummary         } from '../../nf-core/utils_nfcore_pipeline'
 include { imNotification            } from '../../nf-core/utils_nfcore_pipeline'
 include { UTILS_NFCORE_PIPELINE     } from '../../nf-core/utils_nfcore_pipeline'
+include { UTILS_NEXTFLOW_PIPELINE   } from '../../nf-core/utils_nextflow_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -23,34 +25,49 @@ include { UTILS_NFCORE_PIPELINE     } from '../../nf-core/utils_nfcore_pipeline'
 workflow PIPELINE_INITIALISATION {
 
     take:
-    input             //  string: Path to input xml file
+    version           //  boolean: Print version and exit
+    validate_params   //  boolean: Validate parameters against the schema at runtime
+    monochrome_logs   //  boolean: Disable ANSI colour codes in log output
+    nextflow_cli_args //  array: Positional arguments passed to the pipeline
     outdir            //  string: The output directory where the results will be saved
-    positional_args   //  array: Positional arguments passed to the pipeline
 
     main:
 
     ch_versions = Channel.empty()
 
     //
-    // Check config provided to the pipeline
+    // Print version and exit if required and dump pipeline parameters to JSON file
     //
-    UTILS_NFCORE_PIPELINE (
-        positional_args
+    UTILS_NEXTFLOW_PIPELINE (
+        version,
+        true,
+        outdir,
+        workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1
     )
 
     //
-    // Create channel from input file and output dir provided through params.input and params.outdir
+    // Validate parameters and generate parameter summary to stdout
     //
+    UTILS_NFSCHEMA_PLUGIN (
+        workflow,
+        validate_params,
+        null
+    )
 
-    Channel.of([file(input), file(outdir)])
-        .map { input_file, output_dir ->
-            [ [id: input_file.name], input_file, output_dir ]
-        }
-        .set { ch_data }
+    //
+    // Check config provided to the pipeline
+    //
+    UTILS_NFCORE_PIPELINE (
+        nextflow_cli_args
+    )
+
+    //
+    // Custom validation for pipeline parameters
+    //
+    validateInputParameters()
 
     emit:
-    data = ch_data
-    versions    = ch_versions
+    versions = ch_versions
 }
 
 /*
@@ -97,4 +114,16 @@ workflow PIPELINE_COMPLETION {
     workflow.onError {
         log.error "Pipeline failed. Please refer to troubleshooting docs: https://nf-co.re/docs/usage/troubleshooting"
     }
+}
+
+/*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    FUNCTIONS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
+//
+// Check and validate pipeline parameters
+//
+def validateInputParameters() {
+
 }
