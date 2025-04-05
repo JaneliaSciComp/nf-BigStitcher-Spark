@@ -126,4 +126,18 @@ workflow PIPELINE_COMPLETION {
 //
 def validateInputParameters() {
 
+    if (params.module == "resave") {
+        if (!params.xml) {
+            error("ERROR: XML file must be provided for resave module")
+        }
+    }
+    
+    if (params.module == "stitching") {
+        if (!params.xml) {
+            error("ERROR: XML file must be provided for stitching module")
+        }
+    }
+
+    if (params.module == "affine-fusion") {
+    }
 }

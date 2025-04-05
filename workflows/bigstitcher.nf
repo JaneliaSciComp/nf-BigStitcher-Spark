@@ -1,5 +1,22 @@
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    INPUT AND VARIABLES
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
+
+module_class = get_module_class(params.module)
+module_params = params.module_params
+
+if (params.xml) {
+    xml_file = file("${params.xml}")
+} 
+else { 
+    xml_file = null 
+}
+
+
+/*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     IMPORT MODULES / SUBWORKFLOWS / FUNCTIONS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
@@ -13,11 +30,7 @@ include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pi
 
 workflow BIGSTITCHER {
 
-    take:
-    ch_data // channel: bigstitcher jobs to run
     main:
-
-    ch_data.subscribe { log.info "Input data $it" }
 
     ch_versions = Channel.empty()
 
@@ -26,16 +39,15 @@ workflow BIGSTITCHER {
     // Create channel from input file and output dir provided through params.input and params.outdir
     //
 
-    Channel.of([file(outdir)])
+    Channel.of(file(params.outdir))
         .map { output_dir ->
-            [ [id: outdir.name], xml_file, output_dir, module_class, module_params ]
+            [ [id: "bigstitcher"], xml_file, output_dir, module_class, module_params ]
         }
         .set { ch_data }
 
-
-    // Parse parameters
-    module_class = get_module_class(module)
-    xml_file = xml ? file(xml) : null
+    ch_data.subscribe { 
+        log.info "Input data: $it" 
+    }
 
 
     //
@@ -54,9 +66,9 @@ workflow BIGSTITCHER {
     versions = ch_collated_versions  // channel: [ path(versions.yml) ]
 }
 
-
-
-
+//
+// Get the module Java class for the given module name
+//
 def get_module_class(module) {
     switch(module) {
         case 'resave':
