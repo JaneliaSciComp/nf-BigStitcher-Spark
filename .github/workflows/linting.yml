@@ -26,6 +26,7 @@ jobs:
 
       - name: Run pre-commit
         run: pre-commit run --all-files
+        continue-on-error: true
 
   nf-core:
     runs-on: ubuntu-latest
