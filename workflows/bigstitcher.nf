@@ -1,3 +1,5 @@
+include { BIGSTITCHER_SPARK } from '../subworkflows//local/bigstitcher_spark'
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     INPUT AND VARIABLES
@@ -41,14 +43,37 @@ workflow BIGSTITCHER {
 
     Channel.of(file(params.outdir))
         .map { output_dir ->
-            [ [id: "bigstitcher"], xml_file, output_dir, module_class, module_params ]
+            def meta = [ id: "bigstitcher" ]
+            data_files = []
+            if (xml_file) {
+                data_files << file(xml_file)
+            }
+            if (output_dir) {
+                data_files << file(output_dir)
+            }
+            def input_data = [
+                meta,
+                data_files,
+            ]
+            log.debug "Input data: ${module_class} ${input_data} ${module_params}"
+            // return input_data
+            input_data
         }
         .set { ch_data }
 
-    ch_data.subscribe { 
-        log.info "Input data: $it" 
-    }
-
+    BIGSTITCHER_SPARK(
+        ch_data,
+        module_class,
+        module_params,
+        params.bigstitcher_distributed_cluster,
+        params.work_dir,
+        params.bigstitcher_spark_workers,
+        params.bigstitcher_min_spark_workers,
+        params.bigstitcher_spark_worker_cpus,
+        params.bigstitcher_spark_mem_gb_per_cpu,
+        params.bigstitcher_spark_driver_cpus,
+        params.bigstitcher_spark_driver_mem_gb
+    )
 
     //
     // Collate and save software versions
@@ -60,7 +85,6 @@ workflow BIGSTITCHER {
             sort: true,
             newLine: true
         ).set { ch_collated_versions }
-
 
     emit:
     versions = ch_collated_versions  // channel: [ path(versions.yml) ]

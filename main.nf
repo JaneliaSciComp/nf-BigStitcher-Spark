@@ -28,6 +28,7 @@ include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_bigs
 workflow {
 
     main:
+
     //
     // SUBWORKFLOW: Run initialisation tasks
     //
@@ -42,7 +43,7 @@ workflow {
     //
     // WORKFLOW: Run main workflow
     //
-    BIGSTITCHER ()
+    BIGSTITCHER()
 
     //
     // SUBWORKFLOW: Run completion tasks
