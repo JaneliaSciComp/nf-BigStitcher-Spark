@@ -19,6 +19,7 @@ process BIGSTITCHER_MODULE {
     def extra_args = module_args ?: ''
     def executor_memory = spark.executor_memory.replace(" KB",'k').replace(" MB",'m').replace(" GB",'g').replace(" TB",'t')
     def driver_memory = spark.driver_memory.replace(" KB",'k').replace(" MB",'m').replace(" GB",'g').replace(" TB",'t')
+    def app_jar = '/app/app.jar'
 
     def full_bigstitcher_container_uri
     if (bigstitcher_container.startsWith('s3://')) {
@@ -43,19 +44,18 @@ process BIGSTITCHER_MODULE {
 
     echo 'Bigstitcher cmd:' /opt/scripts/runapp.sh \
         "${workflow.containerEngine}" "${spark.work_dir}" "${spark.uri}" \
-        /app/app.jar \
+        ${app_jar} \
         ${module_class} \
         ${spark.parallelism} \
         ${spark.worker_cores} \
         ${executor_memory} \
         ${spark.driver_cores} \
         ${driver_memory} \
+        --spark-conf "spark.driver.extraClassPath=${app_jar}" \
         -o \${full_bigstitcher_container} \
         ${extra_args}
 
-
-    HOME=/tmp/home
-    mkdir -p \${HOME}
+    HOME=/invalid
 
     /opt/scripts/runapp.sh \
         "${workflow.containerEngine}" "${spark.work_dir}" "${spark.uri}" \
@@ -66,8 +66,9 @@ process BIGSTITCHER_MODULE {
         ${executor_memory} \
         ${spark.driver_cores} \
         ${driver_memory} \
+        --spark-conf "spark.driver.extraClassPath=${app_jar}" \
+        --spark-conf "spark.jars.ivy=/root" \
         -o \${full_bigstitcher_container} \
         ${extra_args}
-
     """
 }
