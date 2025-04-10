@@ -61,12 +61,14 @@ workflow BIGSTITCHER {
         }
         .set { ch_data }
 
+    def spark_config = [:]
     BIGSTITCHER_SPARK(
         ch_data,
+        spark_config,
         module_class,
         module_params,
-        params.bigstitcher_distributed_cluster,
-        params.work_dir,
+        params.bigstitcher_distributed,
+        file("${params.work_dir}/${workflow.sessionId}"),
         params.bigstitcher_spark_workers,
         params.bigstitcher_min_spark_workers,
         params.bigstitcher_spark_worker_cpus,

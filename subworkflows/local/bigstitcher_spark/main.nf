@@ -6,6 +6,7 @@ include { BIGSTITCHER_MODULE } from '../../../modules/local/bigstitcher/module/m
 workflow BIGSTITCHER_SPARK {
     take:
     ch_meta                 // channel: [ meta, [dataset.xml, fusion_container] ]
+    spark_config            // map: Additional spark config properties
     bigstitcher_class       // string: Java class for the BigStitcher module
     bigstitcher_args        // string: arguments for the BigStitcher module
     distributed_cluster     // boolean: use a distributed cluster
@@ -21,6 +22,7 @@ workflow BIGSTITCHER_SPARK {
 
     def spark_input = SPARK_START(
         ch_meta,
+        spark_config,
         distributed_cluster,
         work_dir,
         spark_workers,
