@@ -1,5 +1,8 @@
 {
     "module": "affine-fusion",
-    "outdir": "/groups/scicompsoft/home/goinac/Work/HHMI/stitching/datasets/Stitching_Tiff/zstd-fused.ome.zarr",
-    "bigstitcher_distributed": false
+    "outdir": "../datasets/Stitching_Tiff/zstd-fused.ome.zarr",
+    "bigstitcher_spark_mem_gb_per_cpu": 5,
+    "bigstitcher_spark_driver_mem_gb": 5,
+    "bigstitcher_distributed": false,
+    "module_params": "--prefetch --channelId '0,1,2'"
 }
