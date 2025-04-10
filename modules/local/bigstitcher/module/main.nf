@@ -57,18 +57,25 @@ process BIGSTITCHER_MODULE {
 
     HOME=/invalid
 
-    /opt/scripts/runapp.sh \
-        "${workflow.containerEngine}" "${spark.work_dir}" "${spark.uri}" \
-        /app/app.jar \
-        ${module_class} \
-        ${spark.parallelism} \
-        ${spark.worker_cores} \
-        ${executor_memory} \
-        ${spark.driver_cores} \
-        ${driver_memory} \
-        --spark-conf "spark.driver.extraClassPath=${app_jar}" \
-        --spark-conf "spark.jars.ivy=/root" \
-        -o \${full_bigstitcher_container} \
+    CMD=(
+        /opt/scripts/runapp.sh
+        "${workflow.containerEngine}"
+        "${spark.work_dir}"
+        "${spark.uri}"
+        /app/app.jar
+        ${module_class}
+        ${spark.parallelism}
+        ${spark.worker_cores}
+        ${executor_memory}
+        ${spark.driver_cores}
+        ${driver_memory}
+        --spark-conf "spark.driver.extraClassPath=${app_jar}"
+        --spark-conf "spark.jars.ivy=/root"
+        --spark-conf "spark.metrics.conf.*=false"
+        --spark-conf "spark.metrics.namespace=none"
+        -o "\${full_bigstitcher_container}"
         ${extra_args}
+    )
+    (exec "\${CMD[@]}")
     """
 }

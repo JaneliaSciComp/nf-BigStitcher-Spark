@@ -7,7 +7,7 @@
                 "janelia": {
                     "spark_start": {
                         "branch": "main",
-                        "git_sha": "ce27f00338affaed60cbb37b4dc060f145297c23",
+                        "git_sha": "7988f4180a14b67b5379ec8008c15da7b22f366e",
                         "installed_by": ["subworkflows"]
                     },
                     "spark_stop": {

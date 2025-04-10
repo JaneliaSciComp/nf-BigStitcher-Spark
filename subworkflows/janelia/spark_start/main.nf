@@ -1,6 +1,6 @@
 process SPARK_STARTMANAGER {
     label 'process_long'
-    container 'ghcr.io/janeliascicomp/spark:3.1.3'
+    container 'ghcr.io/janeliascicomp/spark:3.3.2-scala2.12-java17-ubuntu24.04'
 
     input:
     tuple val(meta), val(spark), path(spark_work_dir)
@@ -28,17 +28,28 @@ process SPARK_STARTMANAGER {
         echo "Spark work directory: \${full_spark_work_dir} - already exists"
     fi
 
-    /opt/scripts/startmanager.sh "$spark_local_dir" \${full_spark_work_dir} "$spark_master_log_file" \
-        "$spark_config_filepath" "$terminate_file_name" "$args" $sleep_secs $container_engine
+    CMD=(
+        /opt/scripts/startmanager.sh
+        "$spark_local_dir"
+        \${full_spark_work_dir}
+        "$spark_master_log_file"
+        "$spark_config_filepath"
+        "$terminate_file_name"
+        "$args"
+        $sleep_secs $container_engine
+    )
+    echo "CMD: \${CMD[@]}"
+    (exec "\${CMD[@]}")
     """
 }
 
 process SPARK_WAITFORMANAGER {
     label 'process_single'
-    container 'ghcr.io/janeliascicomp/spark:3.1.3'
+    container 'ghcr.io/janeliascicomp/spark:3.3.2-scala2.12-java17-ubuntu24.04'
     errorStrategy { task.exitStatus == 2
         ? 'retry' // retry on a timeout to prevent the case when the waiter is started before the master and master never gets its chance
-        : 'terminate' }
+        : 'terminate'
+    }
     maxRetries 20
 
     input:
@@ -58,14 +69,26 @@ process SPARK_WAITFORMANAGER {
     """
     full_spark_work_dir=\$(readlink -m ${spark_work_dir})
 
-    /opt/scripts/waitformanager.sh "$spark_master_log_name" "$terminate_file_name" $sleep_secs $max_wait_secs
-    export spark_uri=`cat spark_uri`
+    CMD=(
+        /opt/scripts/waitformanager.sh
+        "$spark_master_log_name"
+        "$terminate_file_name"
+        $sleep_secs
+        $max_wait_secs
+    )
+
+    echo "CMD: \${CMD[@]}"
+    (exec "\${CMD[@]}")
+
+    spark_uri=\$(cat spark_uri)
+
+    echo "Export spark URI: \${spark_uri}"
     """
 }
 
 process SPARK_STARTWORKER {
     label 'process_long'
-    container 'ghcr.io/janeliascicomp/spark:3.1.3'
+    container 'ghcr.io/janeliascicomp/spark:3.3.2-scala2.12-java17-ubuntu24.04'
     cpus { spark.worker_cores }
     memory { spark.worker_memory }
 
@@ -90,16 +113,28 @@ process SPARK_STARTWORKER {
     """
     full_spark_work_dir=\$(readlink -m ${spark_work_dir})
 
-    /opt/scripts/startworker.sh "\${full_spark_work_dir}" "${spark.uri}" $worker_id \
-        ${spark.worker_cores} ${worker_memory} \
-        "$spark_worker_log_file" "$spark_config_filepath" "$terminate_file_name" \
-        "$args" $sleep_secs $container_engine
+    CMD=(
+        /opt/scripts/startworker.sh
+        "\${full_spark_work_dir}"
+        "${spark.uri}"
+        "$worker_id"
+        "${spark.worker_cores}"
+        "${worker_memory}"
+        "$spark_worker_log_file"
+        "$spark_config_filepath"
+        "$terminate_file_name"
+        "$args"
+        "$sleep_secs"
+        "$container_engine"
+    )
+    echo "CMD: \${CMD[@]}"
+    (exec "\${CMD[@]}")
     """
 }
 
 process SPARK_WAITFORWORKER {
     label 'process_single'
-    container 'ghcr.io/janeliascicomp/spark:3.1.3'
+    container 'ghcr.io/janeliascicomp/spark:3.3.2-scala2.12-java17-ubuntu24.04'
     // retry on a timeout to prevent the case when the waiter is started
     // before the worker and the worker never gets its chance
     errorStrategy { task.exitStatus == 2 ? 'retry' : 'terminate' }
@@ -122,15 +157,21 @@ process SPARK_WAITFORWORKER {
     """
     full_spark_work_dir=\$(readlink -m ${spark_work_dir})
 
-    /opt/scripts/waitforworker.sh "${spark.uri}" \
-        "$spark_worker_log_file" "$terminate_file_name" \
-        $sleep_secs $max_wait_secs
+    CMD=(
+        /opt/scripts/waitforworker.sh
+        "${spark.uri}"
+        "$spark_worker_log_file"
+        "$terminate_file_name"
+        $sleep_secs
+        $max_wait_secs
+    )
+    (exec "\${CMD[@]}")
     """
 }
 
 process SPARK_CLEANUP {
     label 'process_single'
-    container 'ghcr.io/janeliascicomp/spark:3.1.3'
+    container 'ghcr.io/janeliascicomp/spark:3.3.2-scala2.12-java17-ubuntu24.04'
 
     input:
     tuple val(meta), val(spark), path(spark_work_dir)
@@ -218,7 +259,10 @@ workflow SPARK_START {
 
         // start workers
         // these run indefinitely until SPARK_TERMINATE is called
-        SPARK_STARTWORKER(meta_workers_with_data.worker, meta_workers_with_data.data)
+        SPARK_STARTWORKER(
+            meta_workers_with_data.worker,
+            meta_workers_with_data.data,
+        )
         SPARK_STARTWORKER.out.groupTuple(by:[0,1,2], size: n_spark_workers)
         | map {
             def (meta, spark, spark_work_dir, worker_ids) = it
