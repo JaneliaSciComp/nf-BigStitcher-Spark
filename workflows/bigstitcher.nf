@@ -61,10 +61,9 @@ workflow BIGSTITCHER {
         }
         .set { ch_data }
 
-    def spark_config = [:]
     BIGSTITCHER_SPARK(
         ch_data,
-        spark_config,
+        [:], // spark config
         module_class,
         module_params,
         params.bigstitcher_distributed,
