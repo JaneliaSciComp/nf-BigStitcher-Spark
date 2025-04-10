@@ -1,0 +1,5 @@
+{
+    "module": "affine-fusion",
+    "outdir": "/groups/scicompsoft/home/goinac/Work/HHMI/stitching/datasets/Stitching_Tiff/zstd-fused.ome.zarr",
+    "bigstitcher_distributed": false
+}
