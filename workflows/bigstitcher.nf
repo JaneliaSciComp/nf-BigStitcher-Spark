@@ -67,7 +67,7 @@ workflow BIGSTITCHER {
         module_class,
         module_params,
         params.bigstitcher_distributed,
-        file("${params.work_dir}/${workflow.sessionId}"),
+        file("${params.bigstitcher_work_dir}/${workflow.sessionId}"),
         params.bigstitcher_spark_workers,
         params.bigstitcher_min_spark_workers,
         params.bigstitcher_spark_worker_cpus,
