@@ -19,7 +19,6 @@ workflow BIGSTITCHER_SPARK {
     spark_driver_mem_gb     // int: driver memory in GB
 
     main:
-
     def spark_input = SPARK_START(
         ch_meta,
         spark_config,
@@ -35,11 +34,14 @@ workflow BIGSTITCHER_SPARK {
     | join(ch_meta, by: 0)
     | map {
         def (meta, spark, fusion_container) = it
-        [ meta, fusion_container, spark ]
+        def r = [ meta, fusion_container, spark ]
+        log.debug "Bigstitcher inputs $it -> $r"
+        r
     }
 
     BIGSTITCHER_MODULE(
         spark_input,
+        spark_input.map { it[1] },
         bigstitcher_class,
         bigstitcher_args,
     )

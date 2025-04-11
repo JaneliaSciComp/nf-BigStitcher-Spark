@@ -11,11 +11,21 @@ module_params = params.module_params
 
 if (params.xml) {
     xml_file = file("${params.xml}")
-} 
-else { 
+} else {
     xml_file = null 
 }
 
+if (params.output ) {
+    if (params.output.startsWith('s3://') ||
+        params.output.startsWith('gs://') ||
+        params.output.startsWith('https://')) {
+        output = params.output
+    } else {
+        output = file(params.output)
+    }
+} else {
+    output = file(params.outdir)
+}
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -41,15 +51,15 @@ workflow BIGSTITCHER {
     // Create channel from input file and output dir provided through params.input and params.outdir
     //
 
-    Channel.of(file(params.outdir))
-        .map { output_dir ->
+    Channel.of(output)
+        .map { o ->
             def meta = [ id: "bigstitcher" ]
             data_files = []
             if (xml_file) {
-                data_files << file(xml_file)
+                data_files << xml_file
             }
-            if (output_dir) {
-                data_files << file(output_dir)
+            if (o) {
+                data_files << o
             }
             def input_data = [
                 meta,

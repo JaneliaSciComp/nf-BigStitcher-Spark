@@ -6,6 +6,7 @@ process BIGSTITCHER_MODULE {
 
     input:
     tuple val(meta), path(bigstitcher_container), val(spark)
+    val(bigstitcher_container_val)
     val(module_class)
     val(module_args)
 
@@ -20,26 +21,13 @@ process BIGSTITCHER_MODULE {
     def executor_memory = spark.executor_memory.replace(" KB",'k').replace(" MB",'m').replace(" GB",'g').replace(" TB",'t')
     def driver_memory = spark.driver_memory.replace(" KB",'k').replace(" MB",'m').replace(" GB",'g').replace(" TB",'t')
     def app_jar = '/app/app.jar'
-
-    def full_bigstitcher_container_uri
-    if (bigstitcher_container.startsWith('s3://')) {
-        // S3 bucket URI
-        full_bigstitcher_container_uri = bigstitcher_container
-    } else if (bigstitcher_container.startsWith('gs://')) {
-        // Google bucket URI
-        full_bigstitcher_container_uri = bigstitcher_container
-    } else if (bigstitcher_container.startsWith('https://')) {
-        // Http URI
-        full_bigstitcher_container_uri = bigstitcher_container
-    } else {
-        full_bigstitcher_container_uri = ''
-    }
+    def full_bigstitcher_container_uri = get_input_uri(bigstitcher_container_val)
     """
     # if the fusion container is a Google bucket, S3 bucket, or an HTTP URI, use it as is
     if [[ "${full_bigstitcher_container_uri}" == "" ]]; then
         full_bigstitcher_container=\$(readlink -e ${bigstitcher_container})
     else
-        full_bigstitcher_container=${bigstitcher_container}
+        full_bigstitcher_container=${full_bigstitcher_container_uri}
     fi
 
     CMD=(
@@ -63,4 +51,20 @@ process BIGSTITCHER_MODULE {
     echo "CMD: \${CMD[@]}"
     (exec "\${CMD[@]}")
     """
+}
+
+def get_input_uri(input) {
+    def input_val = input instanceof Collection ? input[0] : input
+    if (input_val.startsWith('s3://')) {
+        // S3 bucket URI
+        uri = input_val
+    } else if (input_val.startsWith('gs://')) {
+        // Google bucket URI
+        uri = input_val
+    } else if (input_val.startsWith('https://')) {
+        // Http URI
+        uri = input_val
+    } else {
+        uri = ''
+    }
 }
