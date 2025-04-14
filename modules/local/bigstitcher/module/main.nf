@@ -45,6 +45,7 @@ process BIGSTITCHER_MODULE {
         --spark-conf "spark.driver.extraClassPath=${app_jar}"
         --spark-conf "spark.executor.extraClassPath=${app_jar}"
         --spark-conf "spark.jars.ivy=\${SPARK_WORK_DIR}"
+        --spark-conf "spark.driver.extraJavaOptions=-Dnative.libpath.verbose=true"
         -o "\${full_bigstitcher_container}"
         ${extra_args}
     )
