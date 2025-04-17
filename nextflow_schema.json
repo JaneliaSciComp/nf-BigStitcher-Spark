@@ -41,6 +41,16 @@
                     "description": "The output N5/ZARR/HDF5 where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
                     "fa_icon": "fas fa-folder-open"
                 },
+                "xmlout": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/xml",
+                    "pattern": "^\\S+\\.xml$",
+                    "description": "Path to a new BigStitcher project xml",
+                    "help_text": "BigStitcher xml project created by the pipeline.",
+                    "fa_icon": "fas fa-file-code"
+                },
                 "email": {
                     "type": "string",
                     "description": "Email address for completion summary.",

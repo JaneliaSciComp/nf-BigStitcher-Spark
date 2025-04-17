@@ -52,11 +52,22 @@ workflow BIGSTITCHER {
                 // xml inputs are always passed using '-x' flag
                 module_args << '-x' << param_as_file(params.xml)
             }
+
             if (is_local_file(o)) {
                 data_files << param_as_file(o)
             }
             // outputs are always passed using '-o' flag
             module_args << '-o' << param_as_file(o)
+
+            // xml output
+            if (params.xmlout) {
+                if (is_local_file(params.xmlout)) {
+                    // add the parent file because the output does not exist
+                    // so an attempt to mount it would result in an error
+                    data_files << param_as_file(params.xmlout).parent
+                }
+                module_args << '-xo' << param_as_file(params.xmlout)
+            }
 
             if (module_params) {
                 module_args << module_params
