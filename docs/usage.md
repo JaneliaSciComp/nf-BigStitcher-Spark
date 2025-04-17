@@ -57,7 +57,7 @@ An [example samplesheet](../assets/samplesheet.csv) has been provided with the p
 The typical command for running the pipeline is as follows:
 
 ```bash
-nextflow run JaneliaSciComp/nf-bigstitcher --input ./samplesheet.csv --outdir ./results  -profile docker
+nextflow run JaneliaSciComp/nf-bigstitcher --xml ./dataset.xml --output ./results  -profile docker
 ```
 
 This will launch the pipeline with the `docker` configuration profile. See below for more information about profiles.
@@ -66,7 +66,7 @@ Note that the pipeline will create the following files in your working directory
 
 ```bash
 work                # Directory containing the nextflow working files
-<OUTDIR>            # Finished results in specified location (defined with --outdir)
+<OUTPUT>            # Finished results in specified location (defined with --output)
 .nextflow_log       # Log file from Nextflow
 # Other nextflow hidden files, eg. history of pipeline runs and old logs.
 ```
@@ -87,8 +87,8 @@ nextflow run JaneliaSciComp/nf-bigstitcher -profile docker -params-file params.y
 with:
 
 ```yaml title="params.yaml"
-input: './samplesheet.csv'
-outdir: './results/'
+xml: './dataset.xml'
+output: './results/'
 <...>
 ```
 

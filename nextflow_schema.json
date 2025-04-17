@@ -23,7 +23,7 @@
                     "type": "string",
                     "fa_icon": "fas fa-terminal",
                     "description": "Parameters for the BigStitcher-Spark module",
-                    "help_text": "Any extra parameters for the BigStitcher-Spark module, except -x and -o, which are provided through --xml and --outdir."
+                    "help_text": "Any extra parameters for the BigStitcher-Spark module, except -x, -o and --xmlout, which are provided through --xml, --output and --xmlout respectively."
                 },
                 "xml": {
                     "type": "string",
