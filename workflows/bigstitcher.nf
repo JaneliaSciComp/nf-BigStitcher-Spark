@@ -34,7 +34,6 @@ workflow BIGSTITCHER {
 
     def ch_versions = Channel.empty()
 
-
     //
     // Create channel from params.output
     //
@@ -53,11 +52,13 @@ workflow BIGSTITCHER {
                 module_args << '-x' << param_as_file(params.xml)
             }
 
-            if (is_local_file(o)) {
-                data_files << param_as_file(o)
+            if (o) {
+                if (is_local_file(o)) {
+                    data_files << param_as_file(o)
+                }
+                // outputs are always passed using '-o' flag
+                module_args << '-o' << param_as_file(o)
             }
-            // outputs are always passed using '-o' flag
-            module_args << '-o' << param_as_file(o)
 
             // xml output
             if (params.xmlout) {
