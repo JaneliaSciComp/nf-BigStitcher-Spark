@@ -123,6 +123,17 @@
                     "type": "string",
                     "description": "Container runtime options",
                     "hidden": true
+                },
+                "singularity_cache_dir": {
+                    "type": "string",
+                    "default": "$HOME/.singularity_cache",
+                    "description": "Cache folder for singularity containers",
+                    "hidden": true
+                },
+                "publishdir": {
+                    "type": "string",
+                    "default": "${projectDir}/work",
+                    "description": "Location for the pipeline-info results"
                 }
             }
         },
