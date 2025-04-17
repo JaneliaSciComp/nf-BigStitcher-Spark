@@ -1,5 +1,6 @@
 nextflow_workflow {
 
+    name "Test BIGSTITCHER_SPARK subworkflow"
     script "./full-stitching-pipeline.nf"
     workflow "FULL_STITCHING_WORKFLOW"
     config "./nextflow.config"
