@@ -29,6 +29,45 @@ nextflow run JaneliaSciComp/nf-bigstitcher \
    --outdir /path/to/your/output.zarr
 ```
 
+To run "affine-fusion" module:
+```bash
+nextflow run JaneliaSciComp/nf-bigstitcher \
+   -profile <docker/singularity/.../institute> \
+   --module affine-fusion \
+   --output /path/to/your/zarr_or_n5_container
+```
+
+If the container is on S3 and it references local files you may need to pass these files using `--input_data_files` parameter. For example if the container was created using:
+```bash
+nextflow run main.nf \
+   -profile docker \
+   --module create-container \
+   --xml <local>/datasets/Stitching_Tiff/zstd-dataset.ome.zarr \
+   --output s3://janelia-bigstitcher-spark/Stitching/cg-fused.zarr \
+   --container_runtime_opts "-e AWS_ACCESS_KEY_ID=<key> -e AWS_SECRET_ACCESS_KEY=<secret>"
+```
+
+Then to fuse it you need to run:
+```bash
+nextflow run main.nf \
+   -profile docker \
+   --module affine-fusion \
+   --output s3://janelia-bigstitcher-spark/Stitching/cg-fused.zarr \
+   --outdir work \
+   --container_runtime_opts "-e AWS_ACCESS_KEY_ID=<k> -e AWS_SECRET_ACCESS_KEY=<s>" \
+   --input_data_files <local>/datasets/Stitching_Tiff/zstd-dataset.xml
+```
+
+To fuse a container on S3 you may need to provide AWS credentials using container_runtime_opts as below:
+```bash
+nextflow run main.nf \
+   -profile docker \
+   --module affine-fusion \
+   --output s3://janelia-bigstitcher-spark/Stitching/fused.zarr \
+   --outdir work \
+   --container_runtime_opts "-e AWS_ACCESS_KEY_ID=<key> -e AWS_SECRET_ACCESS_KEY=<secret>"
+```
+
 > [!WARNING]
 > Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_; see [docs](https://nf-co.re/docs/usage/getting_started/configuration#custom-configuration-files).
 

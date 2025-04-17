@@ -7,7 +7,7 @@
                 "janelia": {
                     "spark_start": {
                         "branch": "main",
-                        "git_sha": "ce27f00338affaed60cbb37b4dc060f145297c23",
+                        "git_sha": "cfc0afa06f34e7c94d875bdbafb45889d9405cd2",
                         "installed_by": ["subworkflows"]
                     },
                     "spark_stop": {
@@ -19,6 +19,7 @@
             }
         },
         "https://github.com/nf-core/modules.git": {
+            "modules": {},
             "subworkflows": {
                 "nf-core": {
                     "utils_nextflow_pipeline": {
