@@ -14,7 +14,7 @@ def is_local_file(f) {
 	return f &&
 		!f.startsWithIgnoreCase('s3://') &&
 		!f.startsWithIgnoreCase('gs://') &&
-	    !f.startsWithIgnoreCase('https://')
+		!f.startsWithIgnoreCase('https://')
 }
 
 def param_as_file(f) {
