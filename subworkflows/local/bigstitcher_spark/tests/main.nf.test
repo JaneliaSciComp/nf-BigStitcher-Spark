@@ -40,8 +40,8 @@ nextflow_workflow {
         then {
             assertAll(
                 { assert workflow.success },
-                { assert path("${workflow.out.s1_res[0][2]}").exists() },
-                { assert path("${workflow.out.s2_res[0][2]}").exists() }
+                { assert path("${workflow.out.s1_res[0][2]}").exists() }, // check dataset.xml exists
+                { assert path("${workflow.out.s2_res[0][2]}").exists() }, // check fused container exists
             )
         }
     }
