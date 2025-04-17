@@ -14,7 +14,6 @@ include {
 
 module = get_module(params.module)
 module_params = params.module_params
-output = params.output ?: params.outdir
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -37,10 +36,10 @@ workflow BIGSTITCHER {
 
 
     //
-    // Create channel from input file and output dir provided through params.input and params.outdir
+    // Create channel from params.output
     //
 
-    def ch_data_inputs = Channel.of(output)
+    def ch_data_inputs = Channel.of(params.output)
         .multiMap { o ->
             def meta = [ id: "bigstitcher" ]
             def data_files = []
@@ -78,14 +77,14 @@ workflow BIGSTITCHER {
         ch_data_inputs.data_inputs,
         ch_data_inputs.module_inputs,
         [:], // spark config
-        params.bigstitcher_distributed && module.parallelizable,
-        file("${params.bigstitcher_work_dir}/${workflow.sessionId}"),
-        params.bigstitcher_spark_workers,
-        params.bigstitcher_min_spark_workers,
-        params.bigstitcher_spark_worker_cpus,
-        params.bigstitcher_spark_mem_gb_per_cpu,
-        params.bigstitcher_spark_driver_cpus,
-        params.bigstitcher_spark_driver_mem_gb
+        params.distributed && module.parallelizable,
+        file("${params.work_dir}/${workflow.sessionId}"),
+        params.spark_workers,
+        params.min_spark_workers,
+        params.spark_worker_cpus,
+        params.spark_mem_gb_per_cpu,
+        params.spark_driver_cpus,
+        params.spark_driver_mem_gb
     )
 
     //
@@ -93,7 +92,7 @@ workflow BIGSTITCHER {
     //
     softwareVersionsToYAML(ch_versions)
         .collectFile(
-            storeDir: "${params.outdir}/pipeline_info",
+            storeDir: "${params.publishdir}/pipeline_info",
             name: 'nf_core_'  +  'bigstitcher_software_'  + 'versions.yml',
             sort: true,
             newLine: true

@@ -10,7 +10,7 @@
             "type": "object",
             "fa_icon": "fas fa-terminal",
             "description": "Define where the pipeline should find input data and save output data.",
-            "required": ["module", "outdir"],
+            "required": ["module", "output"],
             "properties": {
                 "module": {
                     "type": "string",
@@ -35,7 +35,7 @@
                     "help_text": "You will need to create a design file with information about the stitching.",
                     "fa_icon": "fas fa-file-code"
                 },
-                "outdir": {
+                "output": {
                     "type": "string",
                     "format": "directory-path",
                     "description": "The output N5/ZARR/HDF5 where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
@@ -180,42 +180,42 @@
             "description": "",
             "default": "",
             "properties": {
-                "bigstitcher_work_dir": {
+                "work_dir": {
                     "type": "string",
                     "default": "work",
                     "description": "Work directory"
                 },
-                "bigstitcher_distributed": {
+                "distributed": {
                     "type": "boolean",
                     "default": true,
                     "description": "Flag to use a distributed spark cluster for BigStitcher"
                 },
-                "bigstitcher_spark_workers": {
+                "spark_workers": {
                     "type": "integer",
                     "default": 1,
                     "description": "Number of spark workers"
                 },
-                "bigstitcher_min_spark_workers": {
+                "min_spark_workers": {
                     "type": "integer",
                     "default": 1,
                     "description": "Minimum number of workers"
                 },
-                "bigstitcher_spark_worker_cpus": {
+                "spark_worker_cpus": {
                     "type": "integer",
                     "default": 1,
                     "description": "Number of cores for a spark worker"
                 },
-                "bigstitcher_spark_mem_gb_per_cpu": {
+                "spark_mem_gb_per_cpu": {
                     "type": "integer",
                     "default": 15,
                     "description": "Default memory per cpu (in GB)"
                 },
-                "bigstitcher_spark_driver_cpus": {
+                "spark_driver_cpus": {
                     "type": "integer",
                     "default": 1,
                     "description": "Number of cores for the BigStitcher app"
                 },
-                "bigstitcher_spark_driver_mem_gb": {
+                "spark_driver_mem_gb": {
                     "type": "integer",
                     "default": 15,
                     "description": "Memory for the BigStitcher app (in GB)"
