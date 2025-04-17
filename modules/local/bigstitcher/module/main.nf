@@ -5,31 +5,23 @@ process BIGSTITCHER_MODULE {
     memory { spark.driver_memory }
 
     input:
-    tuple val(meta), path(bigstitcher_container), val(spark)
-    val(bigstitcher_container_val)
-    val(module_class)
-    val(module_args)
+    tuple val(meta), val(spark)
+    tuple val(module_class), val(module_args)
+    path(data_files) // this is passed with the intention of mounting data files inside the container
 
     output:
-    tuple val(meta), env(full_bigstitcher_container), val(spark)
+    tuple val(meta), val(spark)
+
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
-    def extra_args = module_args ?: ''
+    def args = module_args ? module_args.join(' ') : ''
     def executor_memory = spark.executor_memory.replace(" KB",'k').replace(" MB",'m').replace(" GB",'g').replace(" TB",'t')
     def driver_memory = spark.driver_memory.replace(" KB",'k').replace(" MB",'m').replace(" GB",'g').replace(" TB",'t')
     def app_jar = '/app/app.jar'
-    def full_bigstitcher_container_uri = get_input_uri(bigstitcher_container_val)
     """
-    # if the fusion container is a Google bucket, S3 bucket, or an HTTP URI, use it as is
-    if [[ "${full_bigstitcher_container_uri}" == "" ]]; then
-        full_bigstitcher_container=\$(readlink -e ${bigstitcher_container})
-    else
-        full_bigstitcher_container=${full_bigstitcher_container_uri}
-    fi
-
     CMD=(
         /opt/scripts/runapp.sh
         "${workflow.containerEngine}"
@@ -46,26 +38,9 @@ process BIGSTITCHER_MODULE {
         --spark-conf "spark.executor.extraClassPath=${app_jar}"
         --spark-conf "spark.jars.ivy=\${SPARK_WORK_DIR}"
         --spark-conf "spark.driver.extraJavaOptions=-Dnative.libpath.verbose=true"
-        -o "\${full_bigstitcher_container}"
-        ${extra_args}
+        ${args}
     )
     echo "CMD: \${CMD[@]}"
     (exec "\${CMD[@]}")
     """
-}
-
-def get_input_uri(input) {
-    def input_val = input instanceof Collection ? input[0] : input
-    if (input_val.startsWith('s3://')) {
-        // S3 bucket URI
-        uri = input_val
-    } else if (input_val.startsWith('gs://')) {
-        // Google bucket URI
-        uri = input_val
-    } else if (input_val.startsWith('https://')) {
-        // Http URI
-        uri = input_val
-    } else {
-        uri = ''
-    }
 }
