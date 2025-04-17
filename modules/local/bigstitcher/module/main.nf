@@ -7,7 +7,7 @@ process BIGSTITCHER_MODULE {
     input:
     tuple val(meta), val(spark)
     tuple val(module_class), val(module_args)
-    path(data_files) // this is passed with the intention of mounting data files inside the container
+    path(data_files, stageAs: "?/*") // this is passed with the intention of mounting data files inside the container
 
     output:
     tuple val(meta), val(spark)
