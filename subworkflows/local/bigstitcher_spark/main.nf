@@ -14,7 +14,7 @@ workflow BIGSTITCHER_SPARK {
     min_spark_workers       // int: minimum required workers
     spark_worker_cpus       // int: number of CPUs per worker
     spark_mem_gb_per_cpu    // int: memory in GB per worker core
-    spark_driver_cpus       // int: number of CPUs for the driver  
+    spark_driver_cpus       // int: number of CPUs for the driver
     spark_driver_mem_gb     // int: driver memory in GB
 
     main:
@@ -34,7 +34,7 @@ workflow BIGSTITCHER_SPARK {
     | join(ch_meta, by: 0)
     | map {
         def (meta, spark, module_class, module_args, data_files) = it
-        
+
         def r = [
             [ meta, spark ],
             [ module_class, module_args ],
@@ -51,7 +51,7 @@ workflow BIGSTITCHER_SPARK {
     )
 
     def bigstitcher_result = SPARK_STOP(
-        BIGSTITCHER_MODULE.out, 
+        BIGSTITCHER_MODULE.out,
         distributed_cluster,
     ) | map {
         def (meta, spark) = it
@@ -62,5 +62,4 @@ workflow BIGSTITCHER_SPARK {
 
     emit:
     done = bigstitcher_result
-
 }
