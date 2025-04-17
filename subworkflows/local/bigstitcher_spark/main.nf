@@ -34,7 +34,6 @@ workflow BIGSTITCHER_SPARK {
     | join(ch_meta, by: 0)
     | map {
         def (meta, spark, module_class, module_args, data_files) = it
-
         def r = [
             [ meta, spark ],
             [ module_class, module_args ],
