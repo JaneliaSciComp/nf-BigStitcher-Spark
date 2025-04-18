@@ -1,0 +1,48 @@
+nextflow_workflow {
+
+    name "Test BIGSTITCHER_SPARK subworkflow"
+    script "./full-stitching-pipeline.nf"
+    workflow "FULL_STITCHING_WORKFLOW"
+    config "./nextflow.config"
+
+    test("stitch and fuse") {
+        setup {
+            run("UNZIP") {
+                script "tests/modules/unzip/main.nf"
+                process {
+                    """
+                    input[0] = Channel.of([
+                        [id:'stitching'],
+                        file(params.stitching_testdata_url, checkIfExists: true)
+                    ])
+                    """
+                }
+            }
+        }
+
+        when {
+            workflow {
+                """
+                input[0] = UNZIP.out.unzipped_archive  // ch_input
+                input[1] = [:]                         // spark_config
+                input[2] = true                        // distributed
+                input[3] = 'work'                      // work_dir
+                input[4] = 3                           // spark_workers
+                input[5] = 1                           // min_spark_workers
+                input[6] = 1                           // spark_worker_cpus
+                input[7] = 3                           // spark_mem_gb_per_cpu
+                input[8] = 1                           // spark_driver_cpus
+                input[9] = 3                           // spark_driver_mem_gb
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert path("${workflow.out.s1_res[0][2]}").exists() }, // check dataset.xml exists
+                { assert path("${workflow.out.s2_res[0][2]}").exists() }, // check fused container exists
+            )
+        }
+    }
+}
