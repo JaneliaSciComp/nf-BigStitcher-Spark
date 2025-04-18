@@ -71,6 +71,7 @@ workflow FULL_STITCHING_WORKFLOW {
             [
                 '-x', dataset_proj_xml,
                 '-o', "${stitching_data}/fused.zarr",
+                '--preserveAnisotropy --multiRes',
             ],
         ]
     }
