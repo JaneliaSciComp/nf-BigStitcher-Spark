@@ -44,7 +44,8 @@ nextflow run JaneliaSciComp/nf-bigstitcher \
    --module create-container \
    --xml <local>/datasets/Stitching_Tiff/zstd-dataset.ome.zarr \
    --output s3://janelia-bigstitcher-spark/Stitching/cg-fused.zarr \
-   --container_runtime_opts "-e AWS_ACCESS_KEY_ID=<key> -e AWS_SECRET_ACCESS_KEY=<secret>"
+   --container_runtime_opts "-e AWS_ACCESS_KEY_ID=<key> -e AWS_SECRET_ACCESS_KEY=<secret>" \
+   --module_params '--preserveAnisotropy --multiRes'
 ```
 
 Then to fuse it you need to run:
