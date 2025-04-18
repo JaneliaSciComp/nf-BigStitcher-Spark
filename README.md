@@ -68,6 +68,16 @@ nextflow run JaneliaSciComp/nf-bigstitcher \
    --container_runtime_opts "-e AWS_ACCESS_KEY_ID=<key> -e AWS_SECRET_ACCESS_KEY=<secret>"
 ```
 
+To fuse a container on Janelia's LSF cluster, with the head nextflow task running on the cluster as well use:
+```bash
+bsub -o job.out -e job.err -J fuse -P <projectCode> \
+    nextflow run main.nf \
+    -profile janelia \
+    --module affine-fusion \
+    --output <fused-container-location> \
+    --lsf_opts "-P <projectCode>"
+```
+
 > [!WARNING]
 > Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_; see [docs](https://nf-co.re/docs/usage/getting_started/configuration#custom-configuration-files).
 
