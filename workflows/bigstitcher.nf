@@ -119,24 +119,59 @@ workflow BIGSTITCHER {
 //
 def get_module(module) {
     switch(module) {
+        case 'affine-fusion':
+            return [
+                module_class: 'net.preibisch.bigstitcher.spark.SparkAffineFusion',
+                parallelizable: true
+            ]
+        case 'clear-interestpoints':
+            return [
+                module_class: 'net.preibisch.bigstitcher.spark.ClearInterestPoints',
+                parallelizable: true,
+            ]
+        case 'clear-registrations':
+            return [
+                module_class: 'net.preibisch.bigstitcher.spark.ClearRegistrations',
+                parallelizable: true,
+            ]
         case 'create-container':
             return [
                 module_class: 'net.preibisch.bigstitcher.spark.CreateFusionContainer',
                 parallelizable: false,
+            ]
+        case 'detect-interestpoints':
+            return [
+                module_class: 'net.preibisch.bigstitcher.spark.SparkInterestPointDetection',
+                parallelizable: true,
+            ]
+        case 'downsample':
+            return [
+                module_class: 'net.preibisch.bigstitcher.spark.SparkDownsample',
+                parallelizable: true,
+            ]
+        case 'match-interestpoints':
+            return [
+                module_class: 'net.preibisch.bigstitcher.spark.SparkGeometricDescriptorMatching',
+                parallelizable: true,
+            ]
+        case 'nonrigid-fusion':
+            return [
+                module_class: 'net.preibisch.bigstitcher.spark.SparkNonRigidFusion',
+                parallelizable: true
             ]
         case 'resave':
             return [
                 module_class: 'net.preibisch.bigstitcher.spark.SparkResaveN5',
                 parallelizable: true,
             ]
+        case 'solver':
+            return [
+                module_class: 'net.preibisch.bigstitcher.spark.Solver',
+                parallelizable: true
+            ]
         case 'stitching':
             return [
                 module_class: 'net.preibisch.bigstitcher.spark.SparkPairwiseStitching',
-                parallelizable: true
-            ]
-        case 'affine-fusion':
-            return [
-                module_class: 'net.preibisch.bigstitcher.spark.SparkAffineFusion',
                 parallelizable: true
             ]
         default:
