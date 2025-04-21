@@ -1,9 +1,9 @@
 #!/usr/bin/env nextflow
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    JaneliaSciComp/nf-bigstitcher
+    JaneliaSciComp/nf-BigStitcher-Spark
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Github : https://github.com/JaneliaSciComp/nf-bigstitcher
+    Github : https://github.com/JaneliaSciComp/nf-BigStitcher-Spark
     Website: https://nf-co.re/bigstitcher
     Slack  : https://nfcore.slack.com/channels/bigstitcher
 ----------------------------------------------------------------------------------------

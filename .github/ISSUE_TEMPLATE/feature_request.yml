@@ -1,5 +1,5 @@
 name: Feature request
-description: Suggest an idea for the JaneliaSciComp/nf-bigstitcher pipeline
+description: Suggest an idea for the JaneliaSciComp/nf-BigStitcher-Spark pipeline
 labels: enhancement
 body:
   - type: textarea

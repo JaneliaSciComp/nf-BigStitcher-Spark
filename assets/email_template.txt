@@ -4,15 +4,15 @@
   |\\ | |__  __ /  ` /  \\ |__) |__         }  {
   | \\| |       \\__, \\__/ |  \\ |___     \\`-._,-`-,
                                         `._,._,'
-  JaneliaSciComp/nf-bigstitcher ${version}
+  JaneliaSciComp/nf-BigStitcher-Spark ${version}
 ----------------------------------------------------
 Run Name: $runName
 
 <% if (success){
-    out << "## JaneliaSciComp/nf-bigstitcher execution completed successfully! ##"
+    out << "## JaneliaSciComp/nf-BigStitcher-Spark execution completed successfully! ##"
 } else {
     out << """####################################################
-## JaneliaSciComp/nf-bigstitcher execution completed unsuccessfully! ##
+## JaneliaSciComp/nf-BigStitcher-Spark execution completed unsuccessfully! ##
 ####################################################
 The exit status of the task that caused the workflow execution to fail was: $exitStatus.
 The full error message was:
@@ -35,5 +35,5 @@ Pipeline Configuration:
 <% out << summary.collect{ k,v -> " - $k: $v" }.join("\n") %>
 
 --
-JaneliaSciComp/nf-bigstitcher
-https://github.com/JaneliaSciComp/nf-bigstitcher
+JaneliaSciComp/nf-BigStitcher-Spark
+https://github.com/JaneliaSciComp/nf-BigStitcher-Spark

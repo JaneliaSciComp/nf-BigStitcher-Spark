@@ -1,7 +1,7 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://raw.githubusercontent.com/JaneliaSciComp/nf-bigstitcher/main/nextflow_schema.json",
-    "title": "JaneliaSciComp/nf-bigstitcher pipeline parameters",
+    "$id": "https://raw.githubusercontent.com/JaneliaSciComp/nf-BigStitcher-Spark/main/nextflow_schema.json",
+    "title": "JaneliaSciComp/nf-BigStitcher-Spark pipeline parameters",
     "description": "BigStitcher: simple and efficient alignment of multi-tile and multi-angle image datasets",
     "type": "object",
     "$defs": {

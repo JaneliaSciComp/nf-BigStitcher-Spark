@@ -4,4 +4,4 @@ contact_links:
     about: Please join the nf-core community here
   - name: "Slack #bigstitcher channel"
     url: https://nfcore.slack.com/channels/bigstitcher
-    about: Discussion about the JaneliaSciComp/nf-bigstitcher pipeline
+    about: Discussion about the JaneliaSciComp/nf-BigStitcher-Spark pipeline

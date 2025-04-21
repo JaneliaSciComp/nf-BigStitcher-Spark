@@ -1,7 +1,7 @@
-# nf-bigstitcher
+# nf-BigStitcher-Spark
 
-[![GitHub Actions CI Status](https://github.com/JaneliaSciComp/nf-bigstitcher/actions/workflows/ci.yml/badge.svg)](https://github.com/JaneliaSciComp/nf-bigstitcher/actions/workflows/ci.yml)
-[![GitHub Actions Linting Status](https://github.com/JaneliaSciComp/nf-bigstitcher/actions/workflows/linting.yml/badge.svg)](https://github.com/JaneliaSciComp/nf-bigstitcher/actions/workflows/linting.yml)
+[![GitHub Actions CI Status](https://github.com/JaneliaSciComp/nf-BigStitcher-Spark/actions/workflows/ci.yml/badge.svg)](https://github.com/JaneliaSciComp/nf-BigStitcher-Spark/actions/workflows/ci.yml)
+[![GitHub Actions Linting Status](https://github.com/JaneliaSciComp/nf-BigStitcher-Spark/actions/workflows/linting.yml/badge.svg)](https://github.com/JaneliaSciComp/nf-BigStitcher-Spark/actions/workflows/linting.yml)
 [![Cite with Zenodo](https://img.shields.io/badge/DOI-10.1038/s41592--019--0501--0-blue)](https://doi.org/10.1038/s41592-019-0501-0)
 [![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A524.10.5-23aa62.svg)](https://www.nextflow.io/)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
@@ -10,7 +10,7 @@
 
 ## Introduction
 
-**JaneliaSciComp/nf-bigstitcher** is a Nextflow pipeline that allows you to run individual [BigStitcher-Spark](https://github.com/JaneliaSciComp/BigStitcher-Spark) modules. This means you can run the compute-intensive parts of [BigStitcher](https://imagej.net/plugins/bigstitcher/) on any compute infrastructure supported by Nextflow ([SGE, SLURM, AWS, etc.](https://www.nextflow.io/docs/latest/executor.html)). The pipeline starts up an Apache Spark cluster, runs the selected BigStitcher step, and then shuts down Spark.
+**JaneliaSciComp/nf-BigStitcher-Spark** is a Nextflow pipeline that allows you to run individual [BigStitcher-Spark](https://github.com/JaneliaSciComp/BigStitcher-Spark) modules. This means you can run the compute-intensive parts of [BigStitcher](https://imagej.net/plugins/bigstitcher/) on any compute infrastructure supported by Nextflow ([SGE, SLURM, AWS, etc.](https://www.nextflow.io/docs/latest/executor.html)). The pipeline starts up an Apache Spark cluster, runs the selected BigStitcher step, and then shuts down Spark.
 
 ## Usage
 
@@ -22,7 +22,7 @@ Review the current [nf-core configs](https://nf-co.re/configs/) to see if your c
 To run the "resave" module:
 
 ```bash
-nextflow run JaneliaSciComp/nf-bigstitcher \
+nextflow run JaneliaSciComp/nf-BigStitcher-Spark \
    -profile <docker/singularity/.../institute> \
    --module resave \
    --xml /path/to/your/bigstitcher/project.xml \
@@ -31,7 +31,7 @@ nextflow run JaneliaSciComp/nf-bigstitcher \
 
 To run "affine-fusion" module:
 ```bash
-nextflow run JaneliaSciComp/nf-bigstitcher \
+nextflow run JaneliaSciComp/nf-BigStitcher-Spark \
    -profile <docker/singularity/.../institute> \
    --module affine-fusion \
    --output /path/to/your/zarr_or_n5_container
@@ -39,7 +39,7 @@ nextflow run JaneliaSciComp/nf-bigstitcher \
 
 If the container is on S3 and it references local files you may need to pass these files using `--input_data_files` parameter. For example if the container was created using:
 ```bash
-nextflow run JaneliaSciComp/nf-bigstitcher \
+nextflow run JaneliaSciComp/nf-BigStitcher-Spark \
    -profile docker \
    --module create-container \
    --xml <local>/datasets/Stitching_Tiff/zstd-dataset.ome.zarr \
@@ -50,7 +50,7 @@ nextflow run JaneliaSciComp/nf-bigstitcher \
 
 Then to fuse it you need to run:
 ```bash
-nextflow run JaneliaSciComp/nf-bigstitcher \
+nextflow run JaneliaSciComp/nf-BigStitcher-Spark \
    -profile docker \
    --module affine-fusion \
    --output s3://janelia-bigstitcher-spark/Stitching/cg-fused.zarr \
@@ -61,7 +61,7 @@ nextflow run JaneliaSciComp/nf-bigstitcher \
 
 To fuse a container on S3 you may need to provide AWS credentials using container_runtime_opts as below:
 ```bash
-nextflow run JaneliaSciComp/nf-bigstitcher \
+nextflow run JaneliaSciComp/nf-BigStitcher-Spark \
    -profile docker \
    --module affine-fusion \
    --output s3://janelia-bigstitcher-spark/Stitching/fused.zarr \
@@ -92,7 +92,7 @@ For more details about the output files and reports, please refer to the
 
 ## Credits
 
-JaneliaSciComp/nf-bigstitcher was developed by Cristian Goina, Konrad Rokicki, and Stephan Preibisch (the author of BigStitcher).
+JaneliaSciComp/nf-BigStitcher-Spark was developed by Cristian Goina, Konrad Rokicki, and Stephan Preibisch (the author of BigStitcher).
 
 ## Contributions and Support
 

@@ -25,7 +25,7 @@ template:
   author: Stephan Preibisch, Cristian Goina, Konrad Rokicki
   version: 1.0.0dev
   force: true
-  outdir: ./nf-bigstitcher
+  outdir: ./nf-BigStitcher-Spark
   skip_features:
     - igenomes
     - multiqc

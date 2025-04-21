@@ -1,4 +1,4 @@
-# JaneliaSciComp/nf-bigstitcher: Output
+# JaneliaSciComp/nf-BigStitcher-Spark: Output
 
 ## Introduction
 

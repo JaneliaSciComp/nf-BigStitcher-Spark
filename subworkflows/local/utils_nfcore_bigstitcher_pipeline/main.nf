@@ -1,5 +1,5 @@
 //
-// Subworkflow with functionality specific to the JaneliaSciComp/nf-bigstitcher pipeline
+// Subworkflow with functionality specific to the JaneliaSciComp/nf-BigStitcher-Spark pipeline
 //
 
 /*

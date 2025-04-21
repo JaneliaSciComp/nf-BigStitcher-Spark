@@ -1,6 +1,6 @@
-# JaneliaSciComp/nf-bigstitcher: Documentation
+# JaneliaSciComp/nf-BigStitcher-Spark: Documentation
 
-The JaneliaSciComp/nf-bigstitcher documentation is split into the following pages:
+The JaneliaSciComp/nf-BigStitcher-Spark documentation is split into the following pages:
 
 - [Usage](usage.md)
   - An overview of how the pipeline works, how to run it and a description of all of the different command-line flags.

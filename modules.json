@@ -1,6 +1,6 @@
 {
-    "name": "JaneliaSciComp/nf-bigstitcher",
-    "homePage": "https://github.com/JaneliaSciComp/nf-bigstitcher",
+    "name": "JaneliaSciComp/nf-BigStitcher-Spark",
+    "homePage": "https://github.com/JaneliaSciComp/nf-BigStitcher-Spark",
     "repos": {
         "JaneliaSciComp/nextflow-modules": {
             "subworkflows": {

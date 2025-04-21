@@ -1,4 +1,4 @@
-# JaneliaSciComp/nf-bigstitcher: Citations
+# JaneliaSciComp/nf-BigStitcher-Spark: Citations
 
 ## BigStitcher
 
