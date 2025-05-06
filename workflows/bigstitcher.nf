@@ -46,7 +46,7 @@ workflow BIGSTITCHER {
             if (params.xml) {
                 if (is_local_file(params.xml)) {
                     // only add it as a file if it's a local file
-                    data_files << param_as_file(params.xml)
+                    data_files << param_as_file(params.xml).parent
                 }
                 // xml inputs are always passed using '-x' flag
                 module_args << '-x' << param_as_file(params.xml)
@@ -54,7 +54,7 @@ workflow BIGSTITCHER {
 
             if (o) {
                 if (is_local_file(o)) {
-                    data_files << param_as_file(o)
+                    data_files << param_as_file(o).parent
                 }
                 // outputs are always passed using '-o' flag
                 module_args << '-o' << param_as_file(o)
