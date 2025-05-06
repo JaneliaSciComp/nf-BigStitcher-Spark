@@ -15,7 +15,7 @@
                 "module": {
                     "type": "string",
                     "fa_icon": "fas fa-puzzle-piece",
-                    "description": "Name of the BigStitcher-Spark module to run (currently supported: resave, stitching, affine-fusion)",
+                    "description": "Name of the BigStitcher-Spark module to run (currently supported: affine-fusion, clear-interestpoints, clear-registrations, create-container, detect-interestpoints, downsample, match-interestpoints, nonrigid-fusion, resave, solver, stitching",
                     "enum": [
                         "affine-fusion",
                         "clear-interestpoints",
