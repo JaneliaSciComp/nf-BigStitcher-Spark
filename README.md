@@ -19,6 +19,29 @@
 
 Review the current [nf-core configs](https://nf-co.re/configs/) to see if your compute environment is already supported by nf-core. If so, you can specify the config using `-profile` when running the pipeline. If not, you may need to create a profile for your compute infrastructure.
 
+### Downloading test data.
+
+To only download test data from an http URL you can use
+
+```bash
+nextflow run JaneliaSciComp/nf-BigStitcher-Spark \
+   -profile <docker/singularity/.../institute> \
+   --module download-only \
+   --download_url myurl \
+   --download_dir /path/to/downloaded_data
+```
+
+You can also combine downloading with running a BigStitcher module that you know is ready to be processed based on the content of the test data. In that case all the other parameters for the BigStitcher should be specified as if everything is available at the specified `--download_dir`
+
+```bash
+nextflow run JaneliaSciComp/nf-BigStitcher-Spark \
+   -profile <docker/singularity/.../institute> \
+   --module stitching \
+   --download_url myurl \
+   --download_dir /path/to/downloaded_data \
+   --xml /path/to/downloaded_data/dataset.xml
+```
+
 To run the "resave" module:
 
 ```bash

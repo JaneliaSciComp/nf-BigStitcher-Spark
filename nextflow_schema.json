@@ -23,6 +23,7 @@
                         "create-container",
                         "detect-interestpoints",
                         "downsample",
+                        "download-only",
                         "match-interestpoints",
                         "nonrigid-fusion",
                         "resave",

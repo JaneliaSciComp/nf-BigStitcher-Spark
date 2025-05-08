@@ -52,69 +52,71 @@ workflow BIGSTITCHER {
         ch_data_inputs = Channel.of([ bigstitcher_meta ])
     }
 
-    def bigstitcher_inputs = ch_data_inputs
-        .multiMap {
-            def (meta, downloaded_data_dir) = it
-            def data_files = []
-            def module_args = []
-            if (downloaded_data_dir) {
-                data_files << downloaded_data_dir
-            }
-            if (params.xml) {
-                if (is_local_file(params.xml)) {
-                    // only add it as a file if it's a local file
-                    data_files << param_as_file(params.xml).parent
+    if (module.module_class) {
+        def bigstitcher_inputs = ch_data_inputs
+            .multiMap {
+                def (meta, downloaded_data_dir) = it
+                def data_files = []
+                def module_args = []
+                if (downloaded_data_dir) {
+                    data_files << downloaded_data_dir
                 }
-                // xml inputs are always passed using '-x' flag
-                module_args << '-x' << param_as_file(params.xml)
-            }
-
-            if (params.output) {
-                if (is_local_file(params.output)) {
-                    data_files << param_as_file(params.output).parent
+                if (params.xml) {
+                    if (is_local_file(params.xml)) {
+                        // only add it as a file if it's a local file
+                        data_files << param_as_file(params.xml).parent
+                    }
+                    // xml inputs are always passed using '-x' flag
+                    module_args << '-x' << param_as_file(params.xml)
                 }
-                // outputs are always passed using '-o' flag
-                module_args << '-o' << param_as_file(params.output)
-            }
 
-            // xml output
-            if (params.xmlout) {
-                if (is_local_file(params.xmlout)) {
-                    // add the parent file because the output does not exist
-                    // so an attempt to mount it would result in an error
-                    data_files << param_as_file(params.xmlout).parent
+                if (params.output) {
+                    if (is_local_file(params.output)) {
+                        data_files << param_as_file(params.output).parent
+                    }
+                    // outputs are always passed using '-o' flag
+                    module_args << '-o' << param_as_file(params.output)
                 }
-                module_args << '-xo' << param_as_file(params.xmlout)
-            }
 
-            if (module_params) {
-                module_args << module_params
-            }
-
-            if (params.input_data_files) {
-                get_values_as_collection(params.input_data_files).forEach { f ->
-                    data_files << param_as_file(f)
+                // xml output
+                if (params.xmlout) {
+                    if (is_local_file(params.xmlout)) {
+                        // add the parent file because the output does not exist
+                        // so an attempt to mount it would result in an error
+                        data_files << param_as_file(params.xmlout).parent
+                    }
+                    module_args << '-xo' << param_as_file(params.xmlout)
                 }
+
+                if (module_params) {
+                    module_args << module_params
+                }
+
+                if (params.input_data_files) {
+                    get_values_as_collection(params.input_data_files).forEach { f ->
+                        data_files << param_as_file(f)
+                    }
+                }
+
+                log.debug "BigStitcher input: ${meta}, ${module.module_class} ${module_args}, data files: ${data_files}"
+                data_inputs: [ meta, data_files ]
+                module_inputs: [ meta, module.module_class, module_args ]
             }
 
-            log.debug "BigStitcher input: ${meta}, ${module.module_class} ${module_args}, data files: ${data_files}"
-            data_inputs: [ meta, data_files ]
-            module_inputs: [ meta, module.module_class, module_args ]
-        }
-
-    BIGSTITCHER_SPARK(
-        bigstitcher_inputs.data_inputs,
-        bigstitcher_inputs.module_inputs,
-        [:], // spark config
-        params.distributed && module.parallelizable,
-        file("${params.work_dir}/${workflow.sessionId}"),
-        params.spark_workers,
-        params.min_spark_workers,
-        params.spark_worker_cpus,
-        params.spark_mem_gb_per_cpu,
-        params.spark_driver_cpus,
-        params.spark_driver_mem_gb
-    )
+        BIGSTITCHER_SPARK(
+            bigstitcher_inputs.data_inputs,
+            bigstitcher_inputs.module_inputs,
+            [:], // spark config
+            params.distributed && module.parallelizable,
+            file("${params.work_dir}/${workflow.sessionId}"),
+            params.spark_workers,
+            params.min_spark_workers,
+            params.spark_worker_cpus,
+            params.spark_mem_gb_per_cpu,
+            params.spark_driver_cpus,
+            params.spark_driver_mem_gb
+        )
+    }
 
     //
     // Collate and save software versions
@@ -165,6 +167,11 @@ def get_module(module) {
             return [
                 module_class: 'net.preibisch.bigstitcher.spark.SparkDownsample',
                 parallelizable: true,
+            ]
+        case 'download-only':
+            return [
+                module_class: '',
+                parallelizable: false,
             ]
         case 'match-interestpoints':
             return [
