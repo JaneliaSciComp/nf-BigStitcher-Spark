@@ -70,11 +70,11 @@ workflow BIGSTITCHER {
             }
 
             if (params.output) {
-                if (is_local_file(o)) {
+                if (is_local_file(params.output)) {
                     data_files << param_as_file(params.output).parent
                 }
                 // outputs are always passed using '-o' flag
-                module_args << '-o' << param_as_file(o)
+                module_args << '-o' << param_as_file(params.output)
             }
 
             // xml output
