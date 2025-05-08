@@ -1,5 +1,5 @@
-include { BIGSTITCHER_SPARK } from '../subworkflows//local/bigstitcher_spark'
-
+include { DOWNLOAD          } from '../modules/local/download/main'
+include { BIGSTITCHER_SPARK } from '../subworkflows/local/bigstitcher_spark'
 include {
     get_values_as_collection;
     is_local_file;
@@ -34,15 +34,32 @@ workflow BIGSTITCHER {
 
     def ch_versions = Channel.empty()
 
-    //
-    // Create channel from params.output
-    //
+    def bigstitcher_meta = [ id: "bigstitcher" ]
+    def ch_data_inputs
+    if (params.download_url) {
+        // download the data first
+        ch_data_inputs = Channel.of(params.download_url)
+            | map { url ->
+                log.debug "Download data from ${url}"
+                if (!params.download_dir) {
+                    error "Download directory not specified. Please set the download_dir parameter."
+                }
+                [ bigstitcher_meta, url, file(params.download_dir) ]
+            }
+            | DOWNLOAD
+    } else {
+        // input channel only has the metadata
+        ch_data_inputs = Channel.of([ bigstitcher_meta ])
+    }
 
-    def ch_data_inputs = Channel.of(params.output)
-        .multiMap { o ->
-            def meta = [ id: "bigstitcher" ]
+    def bigstitcher_inputs = ch_data_inputs
+        .multiMap {
+            def (meta, downloaded_data_dir) = it
             def data_files = []
             def module_args = []
+            if (downloaded_data_dir) {
+                data_files << downloaded_data_dir
+            }
             if (params.xml) {
                 if (is_local_file(params.xml)) {
                     // only add it as a file if it's a local file
@@ -52,9 +69,9 @@ workflow BIGSTITCHER {
                 module_args << '-x' << param_as_file(params.xml)
             }
 
-            if (o) {
+            if (params.output) {
                 if (is_local_file(o)) {
-                    data_files << param_as_file(o).parent
+                    data_files << param_as_file(params.output).parent
                 }
                 // outputs are always passed using '-o' flag
                 module_args << '-o' << param_as_file(o)
@@ -86,8 +103,8 @@ workflow BIGSTITCHER {
         }
 
     BIGSTITCHER_SPARK(
-        ch_data_inputs.data_inputs,
-        ch_data_inputs.module_inputs,
+        bigstitcher_inputs.data_inputs,
+        bigstitcher_inputs.module_inputs,
         [:], // spark config
         params.distributed && module.parallelizable,
         file("${params.work_dir}/${workflow.sessionId}"),

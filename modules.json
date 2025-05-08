@@ -2,24 +2,16 @@
     "name": "JaneliaSciComp/nf-BigStitcher-Spark",
     "homePage": "https://github.com/JaneliaSciComp/nf-BigStitcher-Spark",
     "repos": {
-        "JaneliaSciComp/nextflow-modules": {
-            "subworkflows": {
-                "janelia": {
-                    "spark_start": {
-                        "branch": "main",
-                        "git_sha": "cfc0afa06f34e7c94d875bdbafb45889d9405cd2",
-                        "installed_by": ["subworkflows"]
-                    },
-                    "spark_stop": {
-                        "branch": "main",
-                        "git_sha": "b760f47a778c7bd9d66ea7ca1fd319e2eeb29bf0",
-                        "installed_by": ["subworkflows"]
+        "https://github.com/nf-core/modules.git": {
+            "modules": {
+                "nf-core": {
+                    "unzip": {
+                        "branch": "master",
+                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+                        "installed_by": ["modules"]
                     }
                 }
-            }
-        },
-        "https://github.com/nf-core/modules.git": {
-            "modules": {},
+            },
             "subworkflows": {
                 "nf-core": {
                     "utils_nextflow_pipeline": {

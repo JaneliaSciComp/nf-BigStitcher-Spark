@@ -40,7 +40,7 @@
                 "xml": {
                     "type": "string",
                     "format": "file-path",
-                    "exists": true,
+                    "exists": false,
                     "mimetype": "text/xml",
                     "pattern": "^\\S+\\.xml$",
                     "description": "Path to the existing BigStitcher project xml",

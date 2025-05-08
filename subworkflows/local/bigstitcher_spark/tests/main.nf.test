@@ -8,7 +8,7 @@ nextflow_workflow {
     test("stitch and fuse") {
         setup {
             run("UNZIP") {
-                script "tests/modules/unzip/main.nf"
+                script "modules/nf-core/unzip/main.nf"
                 process {
                     """
                     input[0] = Channel.of([
