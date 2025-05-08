@@ -7,13 +7,14 @@ nextflow_workflow {
 
     test("stitch and fuse") {
         setup {
-            run("UNZIP") {
-                script "modules/nf-core/unzip/main.nf"
+            run("DOWNLOAD") {
+                script "modules/local/download/main.nf"
                 process {
                     """
                     input[0] = Channel.of([
                         [id:'stitching'],
-                        file(params.stitching_testdata_url, checkIfExists: true)
+                        params.download_url,
+                        file(params.download_dir),
                     ])
                     """
                 }
@@ -23,7 +24,7 @@ nextflow_workflow {
         when {
             workflow {
                 """
-                input[0] = UNZIP.out.unzipped_archive  // ch_input
+                input[0] = DOWNLOAD.out.data           // ch_input
                 input[1] = [:]                         // spark_config
                 input[2] = true                        // distributed
                 input[3] = 'work'                      // work_dir
