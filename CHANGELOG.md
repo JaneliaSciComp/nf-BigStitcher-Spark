@@ -7,7 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
-- Affine-Fusion workflow
+Download data option with example parameters to download N5-XML unaligned, aligned or pairwise unaligned test data sets
+
+Supported BigStitcherSpark modules
+* Affine-Fusion
+* Clear-InterestPoints
+* Clear-Registrations
+* Create-Contaier
+* Detect-InterestPoints
+* Downsample
+* Match-InterestPoints
+* NonRigid-Fusion
+* Resave
+* Solver
+* Stitching
 
 ### `Changed`
 
