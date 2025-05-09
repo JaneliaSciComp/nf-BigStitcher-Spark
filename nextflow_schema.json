@@ -256,6 +256,14 @@
                 "input_data_files": {
                     "type": "string",
                     "description": "Additional data files that need to be available"
+                },
+                "download_url": {
+                    "type": "string",
+                    "description": "Where to download the data from"
+                },
+                "download_dir": {
+                    "type": "string",
+                    "description": "Target directory for downloaded data"
                 }
             }
         }
