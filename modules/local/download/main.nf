@@ -1,5 +1,6 @@
 process DOWNLOAD {
     label 'process_single'
+    container { task.ext.container }
 
     input:
     tuple val(meta), val(url), path(dest)
