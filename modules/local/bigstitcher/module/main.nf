@@ -5,13 +5,11 @@ process BIGSTITCHER_MODULE {
     memory { spark.driver_memory }
 
     input:
-    tuple val(meta), val(spark)
-    tuple val(module_class), val(module_args)
+    tuple val(meta), val(spark), val(module_class), val(module_args)
     path(data_files, stageAs: "?/*") // this is passed with the intention of mounting data files inside the container
 
     output:
     tuple val(meta), val(spark)
-
 
     when:
     task.ext.when == null || task.ext.when

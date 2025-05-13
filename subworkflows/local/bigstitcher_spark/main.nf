@@ -35,8 +35,7 @@ workflow BIGSTITCHER_SPARK {
     | map {
         def (meta, spark, module_class, module_args, data_files) = it
         def r = [
-            [ meta, spark ],
-            [ module_class, module_args ],
+            [ meta, spark, module_class, module_args ],
             data_files + [ spark.work_dir ]
         ]
         log.debug "BigStitcher inputs $it -> $r"
@@ -44,9 +43,8 @@ workflow BIGSTITCHER_SPARK {
     }
 
     BIGSTITCHER_MODULE(
-        spark_input.map { it[0] }, // [ meta, spark ]
-        spark_input.map { it[1] }, // [ module_class, module_args ]
-        spark_input.map { it[2] }, // [ data_files ]
+        spark_input.map { it[0] }, // [ meta, spark, module_class, module_args ]
+        spark_input.map { it[1] }, // [ data_files ]
     )
 
     def bigstitcher_result = SPARK_STOP(
@@ -54,7 +52,6 @@ workflow BIGSTITCHER_SPARK {
         distributed_cluster,
     ) | map {
         def (meta, spark) = it
-        [ meta, spark ]
         log.debug "Stopped BigStitcher.Fuse spark cluster: ${spark} -> ${meta}"
         meta
     }
