@@ -1,6 +1,6 @@
 # JaneliaSciComp/nf-BigStitcher-Spark: Usage
 
-## :warning: Please read this documentation on the nf-core website: [https://nf-co.re/bigstitcher/usage](https://nf-co.re/bigstitcher/usage)
+## :warning: Please read this documentation on the BigStitcher-Spark website: [https://github.com/JaneliaSciComp/bigstitcher-spark](https://github.com/JaneliaSciComp/bigstitcher-spark)
 
 > _Documentation of pipeline parameters is generated automatically from the pipeline schema and can no longer be found in markdown files._
 
