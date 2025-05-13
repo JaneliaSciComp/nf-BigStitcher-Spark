@@ -36,7 +36,7 @@ workflow {
         params.version,
         params.validate_params,
         params.monochrome_logs,
-        args,
+        args, // positional arguments
         params.publishdir,
     )
 
