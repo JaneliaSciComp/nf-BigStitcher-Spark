@@ -90,6 +90,11 @@ workflow BIGSTITCHER {
 
                 if (module_params) {
                     module_args << module_params
+                } else {
+                    // check for single flag module parameter that needs to be set
+                    if (params.multiRes) module_args << '--multiRes'
+                    if (params.preserveAnisotropy) module_args << '--preserveAnisotropy'
+                    if (params.bdv) module_args << '--bdv'
                 }
 
                 if (params.input_data_files) {
