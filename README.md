@@ -25,7 +25,7 @@ To only download test data from an http URL you can use
 
 ```bash
 nextflow run JaneliaSciComp/nf-BigStitcher-Spark \
-   -profile <docker/singularity/.../institute> \
+   -profile <docker|podman|singularity|...|institute> \
    --module download-only \
    --download_url myurl \
    --download_dir /path/to/downloaded_data
@@ -35,7 +35,7 @@ You can also combine downloading with running a BigStitcher module that you know
 
 ```bash
 nextflow run JaneliaSciComp/nf-BigStitcher-Spark \
-   -profile <docker/singularity/.../institute> \
+   -profile <docker|podman|singularity|...|institute> \
    --module stitching \
    --download_url myurl \
    --download_dir /path/to/downloaded_data \
