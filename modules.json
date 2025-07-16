@@ -3,6 +3,15 @@
     "homePage": "https://github.com/JaneliaSciComp/nf-BigStitcher-Spark",
     "repos": {
         "https://github.com/JaneliaSciComp/nextflow-modules.git": {
+            "modules": {
+                "janelia": {
+                    "bigstitcher/module": {
+                        "branch": "main",
+                        "git_sha": "a84e1f14ceb78c61c5304cd78e778ea7d558f31c",
+                        "installed_by": ["modules"]
+                    }
+                }
+            },
             "subworkflows": {
                 "janelia": {
                     "spark_start": {
