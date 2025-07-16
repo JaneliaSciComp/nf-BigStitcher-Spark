@@ -1,0 +1,44 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: bigstitcher
+description: Performs 3-D multi-tile and multi-angle alignment using BigStitcher-Spark
+keywords:
+  - spark
+  - stitching
+  - BigStitcher
+tools:
+  - "BigStitcher":
+      description: "The BigStitcher is a software package that allows simple and efficient alignment of multi-tile and multi-angle image datasets, for example acquired by lightsheet, widefield or confocal microscopes."
+      homepage: "https://github.com/JaneliaSciComp/bigstitcher-spark"
+      documentaton: "https://github.com/JaneliaSciComp/bigstitcher-spark"
+      tool_dev_url: "https://github.com/JaneliaSciComp/bigstitcher-spark"
+      license: "['BSD-3-Clause']"
+input:
+  - meta:
+      type: map
+      description: |
+        Groovy map containing: id, input_image_dataset
+  - spark:
+      type: map
+      description: Map containing spark cluster information
+  - module_class:
+      type: string
+      description: Module class name
+  - module_args:
+      type: list
+      description: Module specific arguments. These depend on the module class
+  - data_files:
+      type: path
+      description: Data files
+output:
+  - meta:
+      type: map
+      description: |
+        Groovy map containing: id, input_image_dataset
+  - spark:
+      type: map
+      description: |
+        Tuple spark cluster metadata
+authors:
+  - "@cgoina"
+maintainers:
+  - "@cgoina"

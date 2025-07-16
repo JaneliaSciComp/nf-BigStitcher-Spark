@@ -1,6 +1,6 @@
 process BIGSTITCHER_MODULE {
     tag { meta.id }
-    container { task.ext.container ?: 'ghcr.io/janeliascicomp/bigstitcher:2.4.1-spark3.2.1-jdk8' }
+    container { task.ext.container ?: 'ghcr.io/janeliascicomp/bigstitcher:2.4.1-spark3.3.2-scala2.12-java17-ubuntu24.04' }
     cpus { spark.driver_cores }
     memory { spark.driver_memory }
 
