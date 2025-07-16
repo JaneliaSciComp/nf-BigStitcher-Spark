@@ -1,7 +1,7 @@
 include { SPARK_START } from '../../janelia/spark_start/main'
 include { SPARK_STOP  } from '../../janelia/spark_stop/main'
 
-include { BIGSTITCHER_MODULE } from '../../../modules/local/bigstitcher/module/main'
+include { BIGSTITCHER_MODULE } from '../../../modules/janelia/bigstitcher/module/main'
 
 workflow BIGSTITCHER_SPARK {
     take:
